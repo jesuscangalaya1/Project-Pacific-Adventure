@@ -148,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
                 : Sort.by(ordenarPor).descending();
         Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
 
-        Page<ProductEntity> products = productRepository.findAll(pageable);
+        Page<ProductEntity> products = productRepository.findAllNotDeleted(pageable);
 
         List<ProductEntity> listProducts = products.getContent();
         List<ProductResponse> contenido = listProducts.stream().map(productMapper::toDto).toList();
@@ -166,6 +166,7 @@ public class ProductServiceImpl implements ProductService {
         pageProductResponse.setLast(products.isLast());
         return pageProductResponse;
     }
+
 
     @Override
     @Cacheable(value = "Producto")
